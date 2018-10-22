@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# -*- coding: utf-8 -*-
 import argparse
 import os
 from concurrent.futures import ThreadPoolExecutor
