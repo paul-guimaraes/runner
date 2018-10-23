@@ -26,3 +26,4 @@ with ThreadPoolExecutor(max_workers=args.numberThreads) as executor:
     for command in commands:
         command = command.rstrip()
         future = executor.submit(run, (command))
+commands.close()
