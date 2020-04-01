@@ -5,9 +5,6 @@ import datetime
 import getpass
 import os
 import pexpect
-import shlex
-import subprocess
-import sys
 from concurrent.futures import ThreadPoolExecutor
 
 
@@ -40,9 +37,9 @@ class Runner:
         output_file.write('{}\n\n'.format(_command))
 
         for line in process.readlines():
-            print(line.strip())
             output_file.write(line)
         output_file.close()
+        self.log('Commando %s executado.' % _command)
 
     def start(self):
         password = getpass.getpass("Entre com sua senha por favor:") if self.password else None
@@ -51,8 +48,7 @@ class Runner:
             for i, command in enumerate(commands):
                 command = command.strip()
                 if not command.startswith('#'):
-                    # future = executor.submit(self.run, command, i+1, password)
-                    self.run(command, i+1, password)
+                    future = executor.submit(self.run, command, i+1, password)
         commands.close()
 
 
