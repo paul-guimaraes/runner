@@ -29,14 +29,10 @@ class Runner:
 
     def run(self, _command, _command_number, password=None):
         self.log('Executando %s...' % _command)
-        process = pexpect.spawn('/bin/bash -c "{}"'.format(_command.replace('"', "'")), encoding='utf8')
+        process = pexpect.spawn('/bin/bash -c "{}"'.format(_command.replace('"', "'")), encoding='utf8', timeout=None)
         if password is not None:
-            try:
-                process.expect(['[pP]assword', '[sS]enha'])
-                process.sendline(password)
-            except pexpect.exceptions.TIMEOUT as err:
-                self.log('Commando {} executado com erros.'.format(_command))
-                self.log(err)
+            process.expect(['[pP]assword', '[sS]enha'])
+            process.sendline(password)
 
         output_file = open(os.path.join(self.output_directory, 'command_{}.log'.format(_command_number)), 'w')
         output_file.write('{}\n\n'.format(_command))
@@ -68,7 +64,6 @@ class Runner:
                 command = command.strip()
                 if not command.startswith('#'):
                     future = executor.submit(self.run, command, i+1, password)
-                    # self.run(command, i+1, password)
         commands.close()
 
 
