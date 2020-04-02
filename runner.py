@@ -48,6 +48,7 @@ class Runner:
         ):
             output_file.write('Comando finalizado com erros.\n\n')
             self.log('Commando %s executado com erro.' % _command)
+            exit()
         else:
             self.log('Commando %s executado.' % _command)
 
