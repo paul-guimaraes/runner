@@ -63,7 +63,8 @@ class Runner:
             for i, command in enumerate(commands):
                 command = command.strip()
                 if not command.startswith('#'):
-                    future = executor.submit(self.run, command, i+1, password)
+                    # future = executor.submit(self.run, command, i+1, password)
+                    self.run(command, i+1, password)
         commands.close()
 
 
