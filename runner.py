@@ -31,7 +31,7 @@ class Runner:
         self.log('Executando %s...' % _command)
         process = pexpect.spawn('/bin/bash -c "{}"'.format(_command.replace('"', "'")), encoding='utf8')
         if password is not None:
-            process.expect(['[pP]assword', '[sS]enha'])
+            process.expect(['[pP]assword', '[sS]enha'], timeout=120)
             process.sendline(password)
 
         output_file = open(os.path.join(self.output_directory, 'command_{}.log'.format(_command_number)), 'w')
