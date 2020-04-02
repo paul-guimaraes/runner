@@ -33,13 +33,28 @@ class Runner:
         if password is not None:
             process.expect(['[pP]assword', '[sS]enha'])
             process.sendline(password)
+
         output_file = open(os.path.join(self.output_directory, 'command_{}.log'.format(_command_number)), 'w')
         output_file.write('{}\n\n'.format(_command))
 
-        for line in process.readlines():
+        result = process.readlines()
+
+        process.close()
+
+        if (
+                (process.exitstatus is not None and process.exitstatus != 0)
+                or
+                (process.signalstatus is not None and process.signalstatus != 0)
+        ):
+            output_file.write('Comando finalizado com erros.\n\n')
+            self.log('Commando %s executado com erro.' % _command)
+        else:
+            self.log('Commando %s executado.' % _command)
+
+        for line in result:
             output_file.write(line)
+
         output_file.close()
-        self.log('Commando %s executado.' % _command)
 
     def start(self):
         password = getpass.getpass("Entre com sua senha por favor:") if self.password else None
