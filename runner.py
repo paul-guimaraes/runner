@@ -29,7 +29,7 @@ class Runner:
 
     def run(self, _command, _command_number, password=None):
         self.log('Executando %s...' % _command)
-        process = pexpect.spawn('/bin/bash -c "{}"'.format(_command.replace('"', "'")), encoding='utf8', timeout=None)
+        process = pexpect.spawn('/bin/bash -c "{}"'.format(_command.replace("'", "\\'")), encoding='utf8', timeout=None)
         if password is not None:
             process.expect(['[pP]assword', '[sS]enha'])
             process.sendline(password)
